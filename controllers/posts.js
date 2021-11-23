@@ -1,9 +1,15 @@
 const Posts = require("../models/Posts.js");
 
 exports.postPost = (req, res) => {
-  let newPost = new Posts(req.body);
+  const image = req.body.image;
+  const description = req.body.description;
+
+  let newPost = new Posts({
+    image: image,
+    description: description,
+  });
   newPost.save((err, posts) => {
-    if (err) res.send(err);
+    if (err) res.send(404).json({ err });
     res.json({
       data: posts,
     });
