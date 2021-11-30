@@ -4,13 +4,12 @@ const Schema = mongoose.Schema;
 
 const postsSchema = new Schema({
   imageURL: {
-    // data: Buffer,
-    // contentType: String,
     type: String,
+    required: true,
   },
   description: {
     type: String,
-    // required: true,
+    required: true,
   },
 });
 
