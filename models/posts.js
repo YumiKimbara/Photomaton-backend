@@ -3,13 +3,14 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const postsSchema = new Schema({
-  image: {
-    data: Buffer,
-    contentType: String,
+  imageURL: {
+    // data: Buffer,
+    // contentType: String,
+    type: String,
   },
   description: {
     type: String,
-    required: true,
+    // required: true,
   },
 });
 
