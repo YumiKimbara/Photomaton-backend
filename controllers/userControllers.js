@@ -3,11 +3,10 @@ const User = require("../models/userModel");
 const generateToken = require("../utils/generateToken");
 
 
-
 const authUser = asyncHandler(async (req, res) => {
-    const { userName, email, password } = req.body;
+    const { email, password } = req.body;
 
-    const user = await User.findOne({ email } || { userName });
+    const user = await User.findOne({ email });
 
     if (user && (await user.matchPassword(password))) {
         res.json({
@@ -20,14 +19,15 @@ const authUser = asyncHandler(async (req, res) => {
         });
     } else {
         res.status(401);
-        throw new Error("Invalid Email/Username or Password");
+        throw new Error("Invalid Email or Password");
     }
+
 });
 
 const registerUser = asyncHandler(async (req, res) => {
     const { firstName, lastName, userName, email, password } = req.body;
 
-    const userExists = await User.findOne({ email } || { userName });
+    const userExists = await User.findOne({ email });
 
     if (userExists) {
         res.status(400)
