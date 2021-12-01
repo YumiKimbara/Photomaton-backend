@@ -6,6 +6,6 @@ const postsController = require("../controllers/posts");
 
 const router = express.Router();
 
-router.post("/", upload.single("imageURL"), postsController.postPost);
+router.post("/", upload.array("file"), postsController.postPost);
 
 module.exports = router;

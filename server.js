@@ -3,7 +3,6 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const mongoose = require("mongoose");
 const cors = require("cors");
-const fileupload = require("express-fileupload");
 
 const MONGODB_URI =
   "mongodb+srv://deydevteam:finalproject@cluster0.bhhad.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
@@ -22,7 +21,6 @@ mongoose.connection.on("connected", () => {
 app.use(express.json());
 //set cors to prevent CORS error
 app.use(cors());
-app.use(fileupload({ useTempFiles: true }));
 
 const postsRoutes = require("./routes/posts");
 
