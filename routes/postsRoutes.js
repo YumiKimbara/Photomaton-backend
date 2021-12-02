@@ -2,7 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const upload = multer();
 
-const postsController = require("../controllers/posts");
+const postsController = require("../controllers/postsController");
 
 const router = express.Router();
 
