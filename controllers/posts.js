@@ -3,11 +3,11 @@ const Posts = require("../models/Posts.js");
 const postPost = async (req, res) => {
   try {
     //Is it better to store all req.file?
-    const imageURL = req.file.originalname;
+    // const imageURL = req.file.originalname;
     const description = req.body.description;
 
     let newPost = new Posts({
-      imageURL: imageURL,
+      // imageURL: imageURL,
       description: description,
     });
     console.log(newPost, "INCOMING VALUES");
