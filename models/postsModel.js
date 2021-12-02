@@ -13,7 +13,7 @@ const postsSchema = new Schema({
   },
   imageUrl: {
     type: String,
-    // required: true,
+    required: true,
   },
 });
 

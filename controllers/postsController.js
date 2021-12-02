@@ -11,10 +11,8 @@ const postPost = async (req, res) => {
       description: description,
       imageUrl: imageUrl,
     });
-    console.log(newPost, "INCOMING VALUES");
 
     const savedPosts = await newPost.save();
-    console.log(savedPosts, "SAVED POSTS");
     if (savedPosts) {
       return res
         .status(200)
