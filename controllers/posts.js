@@ -13,7 +13,7 @@ const postPost = async (req, res) => {
     console.log(newPost, "INCOMING VALUES");
 
     //about cors
-    // Nodes js server : 5000
+    // Nodes js server : 3333
     // React Server  : 3000
 
     // By default Browser says if frontend and backend are not on same ports (Then i
