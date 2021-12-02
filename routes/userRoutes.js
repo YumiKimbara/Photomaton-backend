@@ -1,9 +1,11 @@
 const express = require('express');
+const { registerUser, authUser } = require('../controllers/userControllers');
+
+
 const router = express.Router();
-const bcrypt = require("bcryptjs");
-const User = require('../models/userModel');
-const jwt = require('jsonwebtoken');
-const authToken = require('../middlewares/authToken');
+
+router.route('/').post(registerUser);
+router.route('/login').post(authUser);
 
 // Fetch user Info
 router.get('/getInfo', authToken, async (req, res) => {
