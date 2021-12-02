@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3333;
-const authRoute = require('./routes/userRoutes');
+const authRoute = require('./routes/authRoute');
+const userRoute = require('./routes/userRoute')
 const mongoose = require('mongoose');
 const cors = require('cors');
 
@@ -24,6 +25,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', authRoute);
+
+app.use('/user', userRoute);
 
 app.listen(PORT, () => {
     console.log(`Server running at port ${PORT}`)
