@@ -1,8 +1,17 @@
-const express = require("express");
-const app = express();
-const PORT = process.env.PORT || 5000;
+const express = require('express');
+const dotenv = require('dotenv');
+const connectDB = require('./config/db');
+const userRoutes = require('./routes/userRoutes');
+const postsRoutes = require("./routes/posts");
+const cors = require('cors');
+const { notFound, errorHandler } = require('./middlewares/errorMiddlewares');
 const mongoose = require("mongoose");
-const cors = require("cors");
+
+const app = express();
+app.use(express.json());
+dotenv.config();
+app.use(cors());
+connectDB();
 
 const MONGODB_URI =
   "mongodb+srv://deydevteam:finalproject@cluster0.bhhad.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
@@ -16,19 +25,21 @@ mongoose.connection.on("connected", () => {
   console.log("Database connected...");
 });
 
-//imageはmongoDBにはURLだけを格納して、frontend側？でblobに変換する。
-//frontend側がapplication jsonだからここでjsonフォーマットに変換しないといけない。
-app.use(express.json());
-//set cors to prevent CORS error
-app.use(cors());
 
-const postsRoutes = require("./routes/posts");
+app.get('/', (req, res) => {
+    res.send('API Is Running')
+});
 
 app.get("/", (req, res) => {
   console.log("Requested home page");
   res.send("Home page");
-});
 
+app.use('/api/users', userRoutes);
+app.use(notFound);
+app.use(errorHandler);
 app.use("/posts", postsRoutes);
 
-app.listen(PORT, () => console.log(`Server running at port ${PORT} `));
+const PORT = process.env.PORT || 3333;
+app.listen(PORT, () => {
+    console.log(`Server running at port ${PORT}`)
+})
