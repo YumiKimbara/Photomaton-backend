@@ -2,7 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
-const postsRoutes = require("./routes/posts");
+const postsRoutes = require("./routes/postsRoutes");
 const cors = require("cors");
 const { notFound, errorHandler } = require("./middlewares/errorMiddlewares");
 
@@ -17,9 +17,9 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/users", userRoutes);
+app.use("/api/post", postsRoutes);
 app.use(notFound);
 app.use(errorHandler);
-app.use("/api/post", postsRoutes);
 
 const PORT = process.env.PORT || 3333;
 app.listen(PORT, () => {
