@@ -11,10 +11,10 @@ const postsSchema = new Schema({
     type: String,
     required: true,
   },
-  imageUrl: {
+  imageUrl: [{
     type: String,
     required: true,
-  },
+  }],
 });
 
 module.exports = mongoose.model("Posts", postsSchema);

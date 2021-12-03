@@ -2,9 +2,12 @@ const Posts = require("../models/postsModel.js");
 
 const postPost = async (req, res) => {
   try {
+
     const userId = req.body.userId;
     const description = req.body.description;
     const imageUrl = req.body.imageUrl;
+
+    console.log(imageUrl)
 
     let newPost = new Posts({
       userId: userId,
