@@ -4,14 +4,12 @@ const postPost = async (req, res) => {
   try {
 
     const userId = req.body.userId;
-    const description = req.body.description;
+    const content = req.body.content;
     const imageUrl = req.body.imageUrl;
-
-    console.log(imageUrl)
 
     let newPost = new Posts({
       userId: userId,
-      description: description,
+      content: content,
       imageUrl: imageUrl,
     });
 
