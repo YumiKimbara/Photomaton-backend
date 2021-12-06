@@ -33,10 +33,8 @@ exports.getAllPosts = async (req, res) => {
     return res
       .status(200)
       .set("access-control-allow-origin", "http://localhost:3000")
-      .join(allPosts);
+      .json(allPosts);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
 };
-
-// module.exports = { postNewPost };
