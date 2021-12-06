@@ -26,7 +26,7 @@ const postNewPost = async (req, res) => {
   }
 };
 
-const getAllPost = async (req, res) => {
+const getAllPosts = async (req, res) => {
   try {
     const allPosts = await Posts.find();
 
@@ -39,4 +39,4 @@ const getAllPost = async (req, res) => {
   }
 };
 
-module.exports = { postNewPost, getAllPost };
+module.exports = { postNewPost, getAllPosts };
