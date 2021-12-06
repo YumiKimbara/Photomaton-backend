@@ -1,8 +1,7 @@
 const Posts = require("../models/postsModel.js");
 
-const postPost = async (req, res) => {
+const postNewPost = async (req, res) => {
   try {
-
     const userId = req.body.userId;
     const content = req.body.content;
     const imageUrl = req.body.imageUrl;
@@ -27,4 +26,17 @@ const postPost = async (req, res) => {
   }
 };
 
-module.exports = { postPost };
+const getAllPost = async (req, res) => {
+  try {
+    const allPosts = await Posts.find();
+
+    return res
+      .status(200)
+      .set("access-control-allow-origin", "http://localhost:3000")
+      .join(allPosts);
+  } catch (err) {
+    res.status(404).join({ message: err.message });
+  }
+};
+
+module.exports = { postNewPost, getAllPost };
