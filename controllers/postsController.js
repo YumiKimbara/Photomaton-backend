@@ -5,11 +5,13 @@ exports.postNewPost = async (req, res) => {
     const userId = req.body.userId;
     const content = req.body.content;
     const imageUrl = req.body.imageUrl;
+    const userName = req.body.userName;
 
     let newPost = new Posts({
       userId: userId,
       content: content,
       imageUrl: imageUrl,
+      userName: userName,
     });
 
     const savedPosts = await newPost.save();
