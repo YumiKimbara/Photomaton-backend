@@ -1,21 +1,22 @@
 const express = require('express');
 const { registerUser, authUser } = require('../controllers/userControllers');
-
+const authToken = require('../middlewares/authToken')
+const User = require('../models/userModel')
 
 const router = express.Router();
 
 router.route('/').post(registerUser);
 router.route('/login').post(authUser);
 
-// Fetch user Info
-router.get('/getInfo', authToken, async (req, res) => {
+// Fetch user data
+router.get('/getUser/:id', async (req, res) => {
         
     try {
-        const user = await User.find({email: req.user.email})
+        const user = await User.findById(req.params.id)
 
         return res.status(201).json({
             message: 'Successfully fetch the user data',
-            data: user,
+            data: user
         });
     }
     catch (error) {
@@ -26,30 +27,27 @@ router.get('/getInfo', authToken, async (req, res) => {
 })
 
 // Update user Info
-// router.post('/editUser', authToken, async (req, res)=>{
-//         try {
-//         const newPassword = await bcrypt.hash(req.body.password, 10);
-//         // const passwordC = await bcrypt.hash(req.body.passwordConfirmation, 10);
-//         console.log(newPassword);
-//         const data = await User.create({
-//             firstName: req.body.firstName,
-//             lastName: req.body.lastName,
-//             userName: req.body.userName,
-//             password: newPassword,
-//             // passwordConfirmation: passwordC,
-//         })
+router.post('/editUser/:id', async (req, res)=>{
+    try {
+            const data = await User.findOneAndUpdate({_id: req.params.id}, {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            userName: req.body.userName,
+            avatarUrl: req.body.avatarUrl,
+            bio: req.body.bio
+        })
 
-//         return res.status(201).json({
-//             message: 'User succesfully created',
-//             data,
-//         });
-//     }
-//     catch (error) {
-//         return res.status(500).json({
-//             message: error.message,
-//         })
-//     }
-// })
+        return res.status(201).json({
+            message: 'User succesfully updated',
+            data,
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: error.message,
+        })
+    }
+})
 
 
 
