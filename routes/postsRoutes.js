@@ -7,7 +7,7 @@ const postsController = require("../controllers/postsController");
 
 const router = express.Router();
 
-router.post("/", upload.array("file"), postsController.postPost);
+router.post("/", postsController.postPost);
 
 router.get('/getPost/:id', async (req, res) => {
     try {

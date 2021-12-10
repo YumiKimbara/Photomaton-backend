@@ -2,15 +2,18 @@ const Posts = require("../models/postsModel.js");
 
 const postPost = async (req, res) => {
   try {
-    const description = req.body.description;
+
+    const userId = req.body.userId;
+    const content = req.body.content;
+    const imageUrl = req.body.imageUrl;
 
     let newPost = new Posts({
-      description: description,
+      userId: userId,
+      content: content,
+      imageUrl: imageUrl,
     });
-    console.log(newPost, "INCOMING VALUES");
 
     const savedPosts = await newPost.save();
-    console.log(savedPosts, "SAVED POSTS");
     if (savedPosts) {
       return res
         .status(200)
