@@ -8,6 +8,8 @@ const userSchema = mongoose.Schema(
         userName: { type: String, required: true, unique: true },
         email: { type: String, required: true, unique: true },
         password: { type: String, required: true },
+        avatarUrl: {type:String, required: true, default:'https://img.favpng.com/8/19/8/united-states-avatar-organization-information-png-favpng-J9DvUE98TmbHSUqsmAgu3FpGw.jpg'}, 
+        bio: {type: String}
     },
     {
         timestamps: true,
