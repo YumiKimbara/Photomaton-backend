@@ -12,6 +12,7 @@ exports.postNewPost = async (req, res) => {
       content: content,
       imageUrl: imageUrl,
       userName: userName,
+      comment: comment,
     });
 
     const savedPosts = await newPost.save();
@@ -38,5 +39,20 @@ exports.getAllPosts = async (req, res) => {
       .json(allPosts);
   } catch (err) {
     res.status(404).json({ message: err.message });
+  }
+};
+
+exports.updatePost = async (req, res) => {
+  const comment = req.body.comment;
+  const id = req.body.id;
+
+  try {
+    const newPost = await Posts.findById(id, (err, updated) => {
+      updated.comment = comment;
+      updated.save();
+      res.send(updated);
+    });
+  } catch (err) {
+    console.error(err);
   }
 };
