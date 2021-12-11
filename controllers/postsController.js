@@ -12,7 +12,7 @@ exports.postNewPost = async (req, res) => {
       content: content,
       imageUrl: imageUrl,
       userName: userName,
-      comment: comment,
+      // comment: comment,
     });
 
     const savedPosts = await newPost.save();
@@ -43,16 +43,25 @@ exports.getAllPosts = async (req, res) => {
 };
 
 exports.updatePost = async (req, res) => {
-  const comment = req.body.comment;
-  const id = req.body.id;
+  const comment = { text: req.body.comment, postedBy: req.body._id };
 
   try {
-    const newPost = await Posts.findById(id, (err, updated) => {
-      updated.comment = comment;
-      updated.save();
-      res.send(updated);
+    const updatedData = await Posts.findByIdAndUpdate(req.body._id, {
+      new: true,
     });
+
+    updatedData.comment = comment;
+    const savedPosts = await updatedData.save();
+
+    if (savedPosts) {
+      return res
+        .status(200)
+        .set("access-control-allow-origin", "http://localhost:3000")
+        .json({
+          data: savedPosts,
+        });
+    }
   } catch (err) {
-    console.error(err);
+    console.log(err);
   }
 };
