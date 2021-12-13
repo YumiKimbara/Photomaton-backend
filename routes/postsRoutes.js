@@ -1,6 +1,4 @@
 const express = require("express");
-const multer = require("multer");
-const upload = multer();
 const Posts = require("../models/postsModel");
 
 const postsController = require("../controllers/postsController");
