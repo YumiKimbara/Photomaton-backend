@@ -21,7 +21,11 @@ const userSchema = mongoose.Schema(
                 }
             ],
             friendsList: [
-                {userID: {type: String}}
+                {
+                    userID: { type: String },
+                    userName: { type: String },
+                    avatarUrl: { type: String }
+                }
             ]
         }
     },

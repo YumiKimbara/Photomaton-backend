@@ -119,13 +119,55 @@ router.put('/friendAccept', async (req, res) => {
                 "friends.request": { userID: req.body.senderID }
             }
         })
+
+        // Get info from the user
+        const getSender = await User.findById(req.body.senderID)
+        const getReceiver = await User.findById(req.body.receiverID)
+
         const senderData = await User.updateOne({_id: req.body.senderID}, {
             $push: {
-                "friends.friendsList": { userID: req.body.receiverID }
+                "friends.friendsList": {
+                    userID: req.body.receiverID,
+                    userName: getReceiver.userName,
+                    avatarUrl: getReceiver.avatarUrl
+                }
             }
         })
         const receiverData = await User.updateOne({_id: req.body.receiverID}, {
             $push: {
+                "friends.friendsList": {
+                    userID: req.body.senderID,
+                    userName: getSender.userName,
+                    avatarUrl: getSender.avatarUrl
+                }
+            }
+        })
+
+        return res.status(201).json({
+            message: 'Friend accept updated',
+            data: {
+                sender: sentReqData,
+                receiver: requestData
+            }
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: error.message,
+        })
+    }
+})
+
+// Remove a friend
+router.put('/friendRemove', async (req, res) => {
+    try {
+        const sentReqData = await User.updateOne({_id: req.body.senderID}, {
+            $pull: {
+                "friends.friendsList": { userID: req.body.receiverID }
+            }
+        })
+        const requestData = await User.updateOne({_id: req.body.receiverID}, {
+            $pull: {
                 "friends.friendsList": { userID: req.body.senderID }
             }
         })
@@ -144,21 +186,28 @@ router.put('/friendAccept', async (req, res) => {
         })
     }
 })
-// Get friend list
-router.get('/getFriends', async (req, res) => {
-    try {
-        const data = await User.findById(req.body.id)
 
-        return res.status(201).json({
-            message: 'Get friend list',
-            data
+// Get Notifications
+router.get('/getNotifications/:id', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+        console.log(user)
+        const friReqData = user.friends.request
+        const requestArr = friReqData.map(async(item) => {
+            const reqUser = await User.findById(item.userID)
+            return {username: reqUser.userName, avatar: reqUser.avatarUrl}
         })
-    } catch (error) {
+        //Start from here
+        return res.status(201).json({
+            message: 'Successfully fetch notifications',
+            data: user.friends
+        });
+    }
+    catch (error) {
         return res.status(500).json({
             message: error.message,
         })
     }
 })
-
 
 module.exports = router;
