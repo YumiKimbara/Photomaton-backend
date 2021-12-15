@@ -18,6 +18,9 @@ app.get("/", (req, res) => {
 
 app.use("/api/users", userRoutes);
 app.use("/api/post", postsRoutes);
+app.use("/api/postLike", postsRoutes);
+app.use("/api/deleteLike", postsRoutes);
+app.use("/api/postComment", postsRoutes);
 app.use(notFound);
 app.use(errorHandler);
 

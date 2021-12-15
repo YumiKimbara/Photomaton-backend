@@ -6,62 +6,58 @@ const sendEmail = require("../utils/sendEmail")
 const Joi = require("joi")
 const crypto = require('crypto')
 
-
 const authUser = asyncHandler(async (req, res) => {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+  const user = await User.findOne({ email });
 
-    if (user && (await user.matchPassword(password))) {
-        res.json({
-            _id: user._id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            userName: user.userName,
-            email: user.email,
-            token: generateToken(user._id),
-        });
-    } else {
-        res.status(401);
-        throw new Error("Invalid Email or Password");
-    }
-
+  if (user && (await user.matchPassword(password))) {
+    res.json({
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      userName: user.userName,
+      email: user.email,
+      token: generateToken(user._id),
+    });
+  } else {
+    res.status(401);
+    throw new Error("Invalid Email or Password");
+  }
 });
 
 const registerUser = asyncHandler(async (req, res) => {
-    const { firstName, lastName, userName, email, password } = req.body;
+  const { firstName, lastName, userName, email, password } = req.body;
 
-    const userExists = await User.findOne({ email });
+  const userExists = await User.findOne({ email });
 
-    if (userExists) {
-        res.status(400)
-        throw new Error("User Already Exists");
-    }
+  if (userExists) {
+    res.status(400);
+    throw new Error("User Already Exists");
+  }
 
-    const user = await User.create({
-        firstName,
-        lastName,
-        userName,
-        email,
-        password,
+  const user = await User.create({
+    firstName,
+    lastName,
+    userName,
+    email,
+    password,
+  });
+
+  if (user) {
+    res.status(201).json({
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      userName: user.userName,
+      email: user.email,
+      token: generateToken(user._id),
     });
-
-    if (user) {
-        res.status(201).json({
-            _id: user._id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            userName: user.userName,
-            email: user.email,
-            token: generateToken(user._id),
-        })
-    } else {
-        res.status(400)
-        throw new Error("Error Occured")
-    }
+  } else {
+    res.status(400);
+    throw new Error("Error Occured");
+  }
 });
-
-
 
 const forgotPassword = asyncHandler(async (req, res) => {
 
