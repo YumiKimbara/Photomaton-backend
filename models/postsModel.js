@@ -22,6 +22,7 @@ const postsSchema = new Schema(
       type: String,
       required: true,
     },
+    likes: [{ type: ObjectId, ref: "User" }],
     comment: [
       {
         text: String,

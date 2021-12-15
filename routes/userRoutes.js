@@ -24,6 +24,22 @@ router.get("/getUser/:id", async (req, res) => {
   }
 });
 
+// Fetch all user data
+router.get("/getUser", async (req, res) => {
+  try {
+    const user = await User.find();
+
+    return res.status(201).json({
+      message: "Successfully fetch the user data",
+      data: user,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
 // Update user Info
 router.post("/editUser/:id", async (req, res) => {
   try {

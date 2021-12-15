@@ -44,16 +44,67 @@ exports.getAllPosts = async (req, res) => {
   }
 };
 
-exports.updatePost = async (req, res) => {
-  console.log("req", req.body);
-  // const user = User.findById();
-  // console.log("user", user);
+exports.postLike = async (req, res) => {
+  console.log("postLike");
+
+  try {
+    const updatedData = await Posts.findByIdAndUpdate(
+      req.body.likedPostId,
+      {
+        $push: { likes: req.body.likedBy },
+      },
+      {
+        new: true,
+      }
+    );
+    const savedPosts = await updatedData.save();
+    if (savedPosts) {
+      return res
+        .status(200)
+        .set("access-control-allow-origin", "http://localhost:3000")
+        .json({
+          data: savedPosts,
+        });
+    }
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+
+exports.deleteLike = async (req, res) => {
+  console.log("deleteLike");
+
+  try {
+    const updatedData = await Posts.findByIdAndUpdate(
+      req.body.likedPostId,
+      {
+        $pull: { likes: req.body.likedBy },
+      },
+      {
+        new: true,
+      }
+    );
+    const savedPosts = await updatedData.save();
+
+    if (savedPosts) {
+      return res
+        .status(200)
+        .set("access-control-allow-origin", "http://localhost:3000")
+        .json({
+          data: savedPosts,
+        });
+    }
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+
+exports.postComment = async (req, res) => {
   const comment = {
     text: req.body.comment,
     postedBy: req.body.userCommentId,
   };
 
-  console.log("comment", comment);
   try {
     const updatedData = await Posts.findByIdAndUpdate(
       req.body._id,
@@ -64,15 +115,6 @@ exports.updatePost = async (req, res) => {
         new: true,
       }
     );
-    // updatedData
-    //   // .populate({
-    //   //   path: "comment.postedBy",
-    //   //   select: "userName",
-    //   // })
-    //   .then((data) => {
-    //     console.log("Data", data);
-    //     res.json(data);
-    //   });
     updatedData.comment = [...updatedData.comment, comment];
     const savedPosts = await updatedData.save();
     if (savedPosts) {
