@@ -25,3 +25,25 @@ const PORT = process.env.PORT || 3333;
 app.listen(PORT, () => {
   console.log(`Server running at port ${PORT}`);
 });
+
+// Create socket.io
+const server = require('http').createServer(app)
+const io = require('socket.io')(server, {
+  cors: {
+    origin: "*"
+  }
+})
+
+io.on('connection', (socket) => {
+  console.log('Someone has connected.', socket.id)
+  
+
+  socket.on('disconnect', () => {
+    console.log('Someone has left.')
+  })
+})
+
+io.listen(5000, () => {
+  console.log('socket is listening at port 5000')
+});
+

@@ -52,6 +52,8 @@ router.post('/editUser/:id', async (req, res)=>{
 // Send a friend request
 router.put('/friendRequest', async (req, res) => {
     try {
+        const getSender = await User.findById(req.body.senderID)
+
         const sentReqData = await User.updateOne({_id: req.body.senderID}, {
             $push: {
                 "friends.sentRequest": { userID: req.body.receiverID }
@@ -59,7 +61,11 @@ router.put('/friendRequest', async (req, res) => {
         })
         const requestData = await User.updateOne({_id: req.body.receiverID}, {
             $push: {
-                "friends.request": { userID: req.body.senderID }
+                "friends.request": {
+                    userID: req.body.senderID,
+                    userName: getSender.userName,
+                    avatarUrl: getSender.avatarUrl
+                }
             }
         })
 
@@ -187,27 +193,29 @@ router.put('/friendRemove', async (req, res) => {
     }
 })
 
-// Get Notifications
-router.get('/getNotifications/:id', async (req, res) => {
-    try {
-        const user = await User.findById(req.params.id)
-        console.log(user)
-        const friReqData = user.friends.request
-        const requestArr = friReqData.map(async(item) => {
-            const reqUser = await User.findById(item.userID)
-            return {username: reqUser.userName, avatar: reqUser.avatarUrl}
-        })
-        //Start from here
-        return res.status(201).json({
-            message: 'Successfully fetch notifications',
-            data: user.friends
-        });
-    }
-    catch (error) {
-        return res.status(500).json({
-            message: error.message,
-        })
-    }
-})
+// // Get Notifications
+// router.get('/getNotifications/:id', async (req, res) => {
+//     // let requestArr = []
+//     try {
+//         const user = await User.findById(req.params.id)
+//         const friReqData = user.friends.request
+//         // let requestArr = []
+//         // friReqData.foreach(async(item) => {
+//         //     const reqUser = await User.findById(item.userID)
+//         //     requestArr.push({userID: item.userID ,username: reqUser.userName, avatar: reqUser.avatarUrl}) 
+//         // })
+//         // console.log('get req', requestArr)
+//         //Start from here
+//         return res.status(201).json({
+//             message: 'Successfully fetch notifications',
+//             data: friReqData
+//         });
+//     }
+//     catch (error) {
+//         return res.status(500).json({
+//             message: error.message,
+//         })
+//     }
+// })
 
 module.exports = router;
