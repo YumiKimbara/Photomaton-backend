@@ -1,6 +1,7 @@
 const Posts = require("../models/postsModel.js");
 const User = require("../models/userModel.js");
 const router = require("../routes/userRoutes.js");
+//test
 
 exports.postNewPost = async (req, res) => {
   try {
