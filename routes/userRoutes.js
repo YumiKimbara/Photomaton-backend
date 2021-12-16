@@ -14,7 +14,6 @@ router.route('/resetpassword/:userId/:token').post(resetPassword)
 
 // Fetch user data
 router.get('/getUser/:id', async (req, res) => {
-        
     try {
         const user = await User.findById(req.params.id)
 
