@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { registerUser, authUser, resetPassword, forgotPassword } = require('../controllers/userControllers');
+const { registerUser, authUser, resetPassword, forgotPassword, findUser } = require('../controllers/userControllers');
 const authToken = require('../middlewares/authToken')
 const User = require('../models/userModel')
 
@@ -11,6 +11,7 @@ router.route('/').post(registerUser);
 router.route('/login').post(authUser);
 router.route('/resetpassword').post(forgotPassword)
 router.route('/resetpassword/:userId/:token').post(resetPassword)
+router.route('/explore').post(findUser)
 
 // Fetch user data
 router.get("/getUser/:id", async (req, res) => {
