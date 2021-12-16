@@ -7,9 +7,9 @@ const router = express.Router();
 
 router.post("/", postsController.postNewPost);
 router.get("/", postsController.getAllPosts);
-router.put("/", postsController.postLike);
-router.put("/", postsController.deleteLike);
-router.put("/", postsController.postComment);
+router.put("/api/postComment", postsController.postComment);
+router.put("/api/postLike", postsController.postLike);
+router.put("/api/deleteLike", postsController.deleteLike);
 
 router.get("/getPost/:id", async (req, res) => {
   try {
