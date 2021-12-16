@@ -100,6 +100,7 @@ exports.deleteLike = async (req, res) => {
 };
 
 exports.postComment = async (req, res) => {
+  console.log("req.body", req.body);
   const comment = {
     text: req.body.comment,
     postedBy: req.body.userCommentId,
@@ -116,6 +117,7 @@ exports.postComment = async (req, res) => {
       }
     );
     updatedData.comment = [...updatedData.comment, comment];
+
     const savedPosts = await updatedData.save();
     if (savedPosts) {
       return res
