@@ -14,7 +14,6 @@ exports.postNewPost = async (req, res) => {
       content: content,
       imageUrl: imageUrl,
       userName: userName,
-      // comment: comment,
     });
 
     const savedPosts = await newPost.save();
@@ -45,8 +44,6 @@ exports.getAllPosts = async (req, res) => {
 };
 
 exports.postLike = async (req, res) => {
-  console.log("postLike");
-
   try {
     const updatedData = await Posts.findByIdAndUpdate(
       req.body.likedPostId,
@@ -72,8 +69,6 @@ exports.postLike = async (req, res) => {
 };
 
 exports.deleteLike = async (req, res) => {
-  console.log("deleteLike");
-
   try {
     const updatedData = await Posts.findByIdAndUpdate(
       req.body.likedPostId,
@@ -100,7 +95,6 @@ exports.deleteLike = async (req, res) => {
 };
 
 exports.postComment = async (req, res) => {
-  console.log("req.body", req.body);
   const comment = {
     text: req.body.comment,
     postedBy: req.body.userCommentId,
