@@ -4,7 +4,7 @@ const Token = require("../models/tokenModel");
 const generateToken = require("../utils/generateToken");
 const sendEmail = require("../utils/sendEmail")
 const Joi = require("joi")
-const crypto = require('crypto')
+const crypto = require('crypto');
 
 
 const authUser = asyncHandler(async (req, res) => {
@@ -61,7 +61,17 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 });
 
+const findUser = asyncHandler(async (req, res) => {
 
+    const searchPattern = new RegExp(req.body.userName, "gi")
+    const user = await User.find({ userName: { $regex: searchPattern } })
+    if (user) {
+        res.json({ user })
+    } else {
+        res.status(404)
+        throw new Error("User Not Found")
+    }
+})
 
 const forgotPassword = asyncHandler(async (req, res) => {
 
@@ -123,4 +133,4 @@ const resetPassword = asyncHandler(async (req, res) => {
 })
 
 
-module.exports = { registerUser, authUser, forgotPassword, resetPassword };
+module.exports = { registerUser, authUser, forgotPassword, resetPassword, findUser };
