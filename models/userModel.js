@@ -17,7 +17,8 @@ const userSchema = mongoose.Schema(
             request: [
                 {
                     userID: { type: String },
-                    userName: { type: String }
+                    userName: { type: String },
+                    avatarUrl: {type: String}
                 }
             ],
             friendsList: [
